@@ -1,0 +1,35 @@
+nih_api:
+  base_url: "https://clinicaltables.nlm.nih.gov/api/conditions/v3/search"
+  params:
+    df: "primary_name,icd10cm"
+    maxList: 5
+
+request:
+  timeout: 300
+
+prompt:
+  clinical_summary: |
+    Generate a clinical summary for: {query}
+    Use this NIH clinical data: {api_data}
+    Include:
+    - Purpose and indications
+    - Types/variants (with ICD-10 codes if available)
+    - Typical treatment frequency
+    - Common complications
+    - Relevant diagnostic codes
+
+    Format: Markdown with headers and bullet points
+    Accuracy: Highlight any uncertainties in the data
+
+tool:
+  name: "nih_clinical_knowledge"
+  description: "Access real clinical data from NIH API. Input format: {'query': 'search_term'}"
+
+agent:
+  role: "Senior Clinical Researcher"
+  goal: "Provide evidence-based medical information"
+  backstory: "MD/PhD researcher with access to NIH clinical databases"
+
+task:
+  description: "Analyze clinical aspects of {query} using NIH data"
+  expected_output: "Evidence-based medical summary with ICD codes and treatment details"
